@@ -49,7 +49,7 @@ const deepEqual = (actual, expected, path = '') => {
   }
 
   if (path === '') {
-    console.log("Equals")
+    console.log("OK")
   }
 
   return true;
