@@ -1,36 +1,27 @@
+import _ from 'lodash'
 const obj1 = {
-  a: 1
+  a: 0
 }
 
 const obj2 = {
   a: {
-    b: 1,
-    d: 1,
-    c: [1, 2 , {d : 3}]
+    b: undefined,
+    d: 0,
+    c: [1, 2 , {d : 2}]
   },
 };
 
 const obj3 = {
   a: {
-    b: 1,
-    c: [1, 2, { d: 4 }],
-    d: 1,
+    b: null,
+    c: [1, 2, { d: 1 }],
+    d: 0,
   },
 };
 
 const deepEqual = (actual, expected, path = '') => {
-  if (!actual || !expected || typeof actual !== typeof expected) {
-    console.error('Error: type error');
-    return false;
-  }
-
-  if (Object.keys(actual).length !== Object.keys(expected).length) {
-    console.error(`Error: ${path}`);
-    return false;
-  }
-
-  if (typeof actual !== 'object' && typeof expected !== 'object') {
-    if (actual !== expected) {
+  if (!_.isObject(actual) && !_.isObject(expected)) {
+    if (!_.isEqual(actual,expected)) {
       console.error(`Error: ${path}`);
       return false;
     } else {
