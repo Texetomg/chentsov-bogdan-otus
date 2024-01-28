@@ -5,7 +5,7 @@ const data = JSON.parse(
   )
 );
 
-const tree = (data, depth = 0) => {
+export const tree = (data, depth = 0) => {
   const firstSymbol = depth === 0 ? '' : depth === 1 ? '├─' : '│'
   const indentation = `${' '.repeat(depth ? depth - 1 : 0)}${' '.repeat(depth > 2 ? depth - 2 : 0)}`
   const step = depth > 1 ? `└─` : ''
@@ -20,4 +20,4 @@ const tree = (data, depth = 0) => {
   }
 }
 
-tree(data)
+//tree(data)
