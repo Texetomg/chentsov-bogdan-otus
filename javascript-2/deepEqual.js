@@ -5,7 +5,7 @@ const obj1 = {
 
 const obj2 = {
   a: {
-    b: undefined,
+    b: null,
     d: 0,
     c: [1, 2 , {d : 2}]
   },
@@ -20,8 +20,12 @@ const obj3 = {
 };
 
 const deepEqual = (actual, expected, path = '') => {
-  if (!_.isObject(actual) && !_.isObject(expected)) {
-    if (!_.isEqual(actual,expected)) {
+  if (
+    (typeof actual !== 'object' || actual === null) 
+    && (typeof expected !== 'object' || expected === null)
+  ) {
+   
+    if (actual !== expected) {
       console.error(`Error: ${path}`);
       return false;
     } else {
@@ -45,3 +49,5 @@ const deepEqual = (actual, expected, path = '') => {
 
   return true;
 }
+
+deepEqual(obj2, obj3)
