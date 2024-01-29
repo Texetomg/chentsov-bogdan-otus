@@ -1,52 +1,59 @@
+import fs from 'fs'
+import path from 'path'
+import { promisify } from 'util'
+import {tree as createTree} from '../javascript-1/tree.js'
+import _ from 'lodash'
 
-const fs = require('fs');
-const path = require('path');
+const readdir = promisify(fs.readdir);
 
-function tree(dir, depth, result) {
-  let result = { name: path.basename(dir), type: 'directory', children: [] };
-  if (depth <= 0) {
-    return result
+const tree = async (dir, depth) => {
+  const result =  {name: dir, items: []}
+
+  async function traverse(dirPath, currentDepth, obj = defaultItem) {
+    if (currentDepth > depth) {
+      return;
+    }
+
+    const entries = await readdir(dirPath, { withFileTypes: true })
+
+    for (const entry of entries) {
+      const fullPath = path.join(dirPath, entry.name)
+      const isDirectory = entry.isDirectory()
+
+      if (isDirectory) {
+        const subResult = await traverse(fullPath, currentDepth + 1,  {name: entry.name, items: []})
+        obj.items.push(subResult)
+      } else {
+        obj.items.push({name: entry.name})
+      }
+      obj.items = _.compact(obj.items)
+    }
+
+    return obj
   }
-  fs.readdir(dir, (err, files) => {
-    if (err) {
-      return result
-    }
-    let count = files.length;
-    if (!count) {
-      return result
-    }
-    files.forEach(file => {
-      const filePath = path.join(dir, file);
-      fs.stat(filePath, (err, stats) => {
-        if (err) {
-          return result;
-        }
-        if (stats.isDirectory()) {
-            result.children.push(res);
-          tree(filePath, depth - 1, (err, res) => {
-            if (err) {
-              return result;
-            }
-            
-            if (--count === 0) {
-                return result;
-            }
-          });
-        } else {
-          result.children.push({ name: file, type: 'file' });
-          if (--count === 0) {
-            return result;
-          }
-        }
-      });
-    });
-  });
+
+  await traverse(dir, 0, result)
+
+  return result;
 }
 
-const args = process.argv.slice(2);
-const dir = args[0] || '.';
-const depth = parseInt(args[1]) || Infinity;
+(async () => {
+  const depthKeys = ['--depth', '-d']
+  const dir = process.argv[2]
 
-const obj = tree(dir, depth, result)
+  if (process.argv[3] && !depthKeys.includes(process.argv[3])) {
+    console.error(`Disallowed key: ${process.argv[3]}`)
+    console.error(`Allowed keys: ${depthKeys.join(', ')}`)
+    return
+  }
 
-console.log(tree)
+  if (!process.argv[4]) {
+    console.error(`Depth required. `)
+    console.error(`Example: node tree.js ./ -d 4 `)
+    return
+  }
+
+  const depth = parseInt(process.argv[4], 10)
+  const result = await tree(dir, depth)
+  console.log(createTree(result))
+})()
