@@ -7,7 +7,8 @@ import _ from 'lodash'
 const readdir = promisify(fs.readdir);
 
 const tree = async (dir, depth) => {
-  const result =  {name: dir, items: []}
+  const countResult =  { directoriesCount: 0, filesCount: 0, }
+  const treeResult = { name: dir, items: [], }
 
   async function traverse(dirPath, currentDepth, obj = defaultItem) {
     if (currentDepth > depth) {
@@ -21,9 +22,11 @@ const tree = async (dir, depth) => {
       const isDirectory = entry.isDirectory()
 
       if (isDirectory) {
+        countResult.directoriesCount += 1
         const subResult = await traverse(fullPath, currentDepth + 1,  {name: entry.name, items: []})
         obj.items.push(subResult)
       } else {
+        countResult.filesCount += 1
         obj.items.push({name: entry.name})
       }
       obj.items = _.compact(obj.items)
@@ -32,9 +35,12 @@ const tree = async (dir, depth) => {
     return obj
   }
 
-  await traverse(dir, 0, result)
+  await traverse(dir, 0, treeResult)
 
-  return result;
+  return {
+    count: countResult,
+    tree: treeResult,
+  }
 }
 
 (async () => {
@@ -55,5 +61,6 @@ const tree = async (dir, depth) => {
 
   const depth = parseInt(process.argv[4], 10)
   const result = await tree(dir, depth)
-  console.log(createTree(result))
+  console.log(createTree(result.tree))
+  console.log(`Directories: ${result.count.directoriesCount}, files: ${result.count.filesCount}`)
 })()
