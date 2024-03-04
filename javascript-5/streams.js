@@ -11,8 +11,6 @@ const wordsRegex = /[^a-zA-Z]/g
 const readStream = fs.createReadStream(inputFilePath);
 const writeStream = fs.createWriteStream(outputFilePath)
 
-
-
 const countWordsTransform = new Transform({
     transform(chunk, encoding, callback) {
         const wordsMap = {}
@@ -40,6 +38,8 @@ const countWordsTransform = new Transform({
     }
 })
 
-readStream.pipe(countWordsTransform).pipe(writeStream)
+readStream
+    .pipe(countWordsTransform)
+    .pipe(writeStream)
 
 
