@@ -1,5 +1,4 @@
 import fs from 'fs'
-import readLine from 'readline'
 import _ from 'lodash'
 import { Transform } from 'stream'
 
