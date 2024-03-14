@@ -1,41 +1,55 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import express from 'express'
+import 'dotenv/config'
+import './auth.js'
+import passport  from 'passport'
+import { isLoggedIn } from './isLoggedIn.js'
+import session from 'express-session'
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const port = process.env.PORT
 
-var app = express();
+const app = express()
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.use(session({ secret: "cats" }))
+app.use(passport.initialize())
+app.use(passport.session())
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => {
+    res.send("<a href='/auth/google'>Auth with google</a>")
+})
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.get('/auth/google',
+    passport.authenticate('google', { scope: ['email', 'profile'] })
+)
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect: '/protected',
+        failureRedirect: '/auth/failure'
+    })
+)
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.get('/protected', isLoggedIn, (req, res) => {
+    res.send(`
+        <p>Hello ${req.user.displayName}</p>
+        <a href='/logout'>logout</a>
+    `)
+})
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+app.get('/auth/failure', (req, res) => {
+    res.send('unsuccess auth')
+})
 
-app.listen(3000, () => { console.log('start') })
+app.get('/logout', (req, res) => {
+    req.logout(function (err) {
+        if (err) {
+          return next(err)
+        }
+        req.session.destroy()
+        res.redirect('/')
+    })
+})
+
+app.listen(port, () => {
+    console.log(`Listening to requests on http://localhost:${port}`)
+})
+
