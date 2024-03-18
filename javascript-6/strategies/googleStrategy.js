@@ -1,4 +1,4 @@
-import googleStrategy from 'passport-google-oauth20'
+/* import googleStrategy from 'passport-google-oauth20'
 import passport  from 'passport'
 
 const GoogleStrategy = googleStrategy.Strategy
@@ -19,4 +19,4 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((user, done) => {
     done(null, user)
-})
+}) */
