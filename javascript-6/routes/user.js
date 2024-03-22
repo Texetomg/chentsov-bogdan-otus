@@ -16,7 +16,6 @@ router.get('/:id', (req, res) => {
 
     if (user) {
         res
-            .status(200)
             .send({ data: user})
     } else {
         res
@@ -41,7 +40,6 @@ router.post('/', (req, res) => {
     users.push(body)
 
     res
-        .status(200)
         .send({ data: newUser })
 })
 
@@ -54,7 +52,8 @@ router.delete('/:id', (req, res) => {
             .send({ error: 'no user'})
     }
     
-    res.status(200).send({ data: users.filter(user => user.id !== id) })
+    res
+        .send({ data: users.filter(user => user.id !== id) })
 })
 
 router.patch('/:id', (req, res) => {
@@ -73,7 +72,8 @@ router.patch('/:id', (req, res) => {
         status: status ? status : user.status
     }
 
-    res.status(200).send({ data: newUserData })
+    res
+        .send({ data: newUserData })
 })
 
 export default router
