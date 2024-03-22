@@ -7,6 +7,7 @@ import userRouter from './routes/user.js'
 import taskRouter from './routes/task.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { errorHandler } from './handlers/errorHandler.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,6 +22,8 @@ app.use(session({ secret: "cats" }))
 app.use(passport.initialize())
 app.use(passport.session())
 
+
+
 app.get('/', (req, res) => {
     res.send("<a href='/auth/google'>Auth with google</a>")
 })
@@ -29,7 +32,7 @@ app.use('/auth', authRouter)
 app.use('/api/user', userRouter)
 app.use('/api/task', taskRouter)
 
-
+app.use(errorHandler)
 
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`)

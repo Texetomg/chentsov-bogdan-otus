@@ -1,16 +1,11 @@
 import express from 'express'
 import { tasks } from '../mocks/tasks.js'
+import { newError } from '../handlers/newError.js'
 
 const router = express.Router()
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
     const id = req.params.id
-
-    if (!id) {
-        res
-            .status(500)
-            .send({ error: 'id is requried'})
-    }
 
     const task = tasks.find(task => task.id === id)
 
@@ -18,26 +13,22 @@ router.get('/:id', (req, res) => {
         res
             .send({ data: task})
     } else {
-        res
-            .status(404)
-            .send({ error: 'no data'})
+        newError(next, 404)
     }
 })
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     const body = req.body
-    console.log(req)
+
     if (!body.name) {
-        res
-            .status(500)
-            .send({ error: 'name is requried'})
+        newError(next, 400)
     }
     const newTask = { 
         id: tasks.length + 1,
         name: body.name,
         status: 'done'
     }
-    users.push(newTask)
+    tasks.push(newTask)
 
     res
         .send({ data: newTask })
@@ -47,9 +38,7 @@ router.delete('/:id', (req, res) => {
     const id = req.params.id
     const task = tasks.find(task => task.id === id)
     if (!task) {
-        res
-            .status(500)
-            .send({ error: 'no task'})
+        newError(next, 404)
     }
     
     res
@@ -61,9 +50,7 @@ router.patch('/:id', (req, res) => {
     const { name, status } = req.body
     const task = tasks.find(task => task.id === id)
     if (!task) {
-        res
-            .status(500)
-            .send({ error: 'no task'})
+        newError(next, 404)
     }
     
     const newTaskData = {

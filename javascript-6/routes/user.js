@@ -1,5 +1,6 @@
 import express from 'express'
 import { users } from '../mocks/users.js'
+import { newError } from '../handlers/newError.js'
 
 const router = express.Router()
 
@@ -7,9 +8,7 @@ router.get('/:id', (req, res) => {
     const id = req.params.id
 
     if (!id) {
-        res
-            .status(500)
-            .send({ error: 'id is requried'})
+        newError(next, 400)
     }
 
     const user = users.find(user => user.id === id)
@@ -18,19 +17,15 @@ router.get('/:id', (req, res) => {
         res
             .send({ data: user})
     } else {
-        res
-            .status(404)
-            .send({ error: 'no data'})
+        newError(next, 404)
     }
 })
 
 router.post('/', (req, res) => {
     const body = req.body
-    console.log(req)
+ 
     if (!body.login) {
-        res
-            .status(500)
-            .send({ error: 'login is requried'})
+        newError(next, 400)
     }
     const newUser = { 
         id: users.length + 1,
@@ -47,9 +42,7 @@ router.delete('/:id', (req, res) => {
     const id = req.params.id
     const user = users.find(user => user.id === id)
     if (!user) {
-        res
-            .status(500)
-            .send({ error: 'no user'})
+        newError(next, 404)
     }
     
     res
@@ -61,9 +54,7 @@ router.patch('/:id', (req, res) => {
     const { login, status } = req.body
     const user = users.find(user => user.id === id)
     if (!user) {
-        res
-            .status(500)
-            .send({ error: 'no user'})
+        newError(next, 404)
     }
     
     const newUserData = {
