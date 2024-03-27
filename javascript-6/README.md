@@ -17,9 +17,9 @@ test - npm test
 описание сущностей:
 /*  
 Пользователь:
-    /user - post добавление
-    /user/:id - put обновление
-    /user/:id - delete удаление
+    /users - post добавление
+    /users/:id - put обновление
+    /users/:id - delete удаление
 */
 
 type TUser = {
@@ -43,9 +43,9 @@ enum ERoles {
 
 /*
 Задача:
-    /task - post добавление
-    /task/:id - put обновление
-    /task/:id - delete удаление
+    /tasks - post добавление
+    /tasks/:id - put обновление
+    /tasks/:id - delete удаление
 */
 
 type TTask = {
@@ -67,9 +67,9 @@ type TExample = {
 
 /*
 Навык:
-    /skill - post добавление
-    /skill/:id - put обновление
-    /skill/:id - delete удаление
+    /skills - post добавление
+    /skills/:id - put обновление
+    /skills/:id - delete удаление
 */
 
 type TSkill = {
@@ -86,9 +86,9 @@ enum EGrade {
 
 /*
 Решения:
-    /solution - post добавление
-    /solution/:id - put обновление
-    /solution/:id - delete удаление
+    /solutions - post добавление
+    /solutions/:id - put обновление
+    /solutions/:id - delete удаление
 */
 
 type TSolution = {
@@ -101,8 +101,8 @@ type TSolution = {
 
 /*
 Тег:
-    /tag - post добавление
-    /tag/:id - delete удаление
+    /tags - post добавление
+    /tags/:id - delete удаление
 */
 
 type TTag = {
@@ -130,8 +130,8 @@ type TRating = {
 
 /*
 Комментарий:
-    /comment - post добавление
-    /comment/:id - put обновление
+    /comments - post добавление
+    /comments/:id - put обновление
 */
 
 type TComment = {
@@ -145,8 +145,8 @@ type TComment = {
 
 /*
 Дискуссии:
-    /discussion - post добавление
-    /discussion/:id - put обновление
+    /discussions - post добавление
+    /discussions/:id - put обновление
 */
 
 type TDiscussion = {
