@@ -1,6 +1,7 @@
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { getPath } = require('./getPath')
+import jsdom from "jsdom"
+import { getPath } from './getPath'
+
+const { JSDOM } = jsdom
 
 describe('getPath', () => {
     test('Should return a unique CSS selector', () => {

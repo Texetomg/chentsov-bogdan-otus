@@ -1,4 +1,4 @@
-const getPath = (element) => {
+export const getPath = (element) => {
    /*  if (!(element instanceof Element)) {
         throw new Error('Not HTML Element')
     } */
@@ -24,5 +24,3 @@ const getPath = (element) => {
 
     return path.join(' ')
 }
-
-module.exports = { getPath }

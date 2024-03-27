@@ -1,0 +1,352 @@
+openapi: 3.0.3
+info:
+  title: клон LeetCode
+  version: 1.0.0
+servers:
+- url: http://localhost:3000/api
+  description: dev server
+paths:
+  /user:
+    post:
+      summary: Создание нового пользователя
+      operationId: userPost
+      requestBody:
+        required: true
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '201':
+          description: Успешное создание пользователя
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          description: Ошибка создания пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_400'
+    
+
+  /user/{id}:
+    get:
+      summary: Получение пользователя по id
+      operationId: userGET
+      parameters:
+        - name: id
+          in: path
+          description: id пользователя
+          required: true
+          example: 1
+          schema:
+            type: number
+            format: int64
+      responses:
+        "200":
+          description: Успешный ответ с пользователем
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_404'
+                
+    put:
+      summary: Полное обновление пользователя по id
+      operationId: userPut
+      parameters:
+        - name: id
+          in: path
+          description: id пользователя
+          required: true
+          example: 1
+          schema:
+              type: number
+              format: int64
+      requestBody:
+        required: true
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: Успешное создание пользователя
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          description: Ошибка обновления пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_400'
+        "404":
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_404'
+    
+    patch:
+      summary: Частичное обновление пользователя по id
+      operationId: userPatch
+      parameters:
+        - name: id
+          in: path
+          description: id пользователя
+          required: true
+          example: 1
+          schema:
+              type: number
+              format: int64
+      requestBody:
+        required: true
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: Успешное частичное обновление пользователя
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_404'
+                
+  /task:
+    post:
+      summary: Создание новой задачи
+      operationId: taskPost
+      requestBody:
+        required: true
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '201':
+          description: Успешное создание задачи
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          description: Ошибка создания задачи
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_400'
+  
+  /task/{id}:
+    get:
+      summary: Получение задачи по id
+      operationId: taskGet
+      parameters:
+        - name: id
+          in: path
+          description: id задачи
+          required: true
+          example: 1
+          schema:
+            type: number
+            format: int64
+      responses:
+        "200":
+          description: Успешный ответ с задачей
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        "404":
+          description: Задача не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_404'
+                
+    put:
+      summary: Полное обновление задачи по id
+      operationId: taskPut
+      parameters:
+        - name: id
+          in: path
+          description: id задачи
+          required: true
+          example: 1
+          schema:
+              type: number
+              format: int64
+      requestBody:
+        required: true
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '200':
+          description: Успешное создание задачи
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/Task"
+        '400':
+          description: Ошибка обновления задачи
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_400'
+        "404":
+          description: Задача не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_404'
+    
+    patch:
+      summary: Частичное обновление задачи по id
+      operationId: userPatch
+      parameters:
+        - name: id
+          in: path
+          description: id задачи
+          required: true
+          example: 1
+          schema:
+              type: number
+              format: int64
+      requestBody:
+        required: true
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '200':
+          description: Успешное частичное обновление пользователя
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Задача не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_404'
+
+      
+components:
+  schemas:
+  
+    User:
+      required:
+      - id
+      - login
+      - name
+      - status
+      type: object
+      properties:
+        login:
+          type: string
+          example: Biba
+        id:
+          type: number
+          example: 1
+        status:
+          type: string
+          enum:
+          - active
+          - blocked
+        tasks: 
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+      example:
+        id: "1"
+        login: Biba
+        status: active
+        
+    Task:
+      required:
+      - id
+      - name
+      - description
+      type: object
+      properties:
+        name:
+          type: string
+          example: Name
+        id:
+          type: string
+          example: "1"
+        status:
+          type: string
+          enum:
+          - done
+          - failed
+        description:
+          type: string
+          example: Description
+        comments:
+          type: array
+          items: 
+            $ref: "#/components/schemas/Comment"
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Comment"
+          
+    Comment:
+      type: object
+      required:
+      - userId
+      - description
+      properties:
+        userId:
+          type: integer
+        parentId:
+          type: integer
+        childrenIds:
+          type: array
+          items:
+            type: integer
+        description:
+          type: string
+            
+    Tag:
+      type: string
+          
+    Error_404:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: 'Error text'
+          
+    Error_400:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Error text'
