@@ -3,8 +3,8 @@ import passport  from 'passport'
 import dotenv from 'dotenv'
 import session from 'express-session'
 import authRouter from './routes/auth.js'
-import userRouter from './routes/user.js'
-import taskRouter from './routes/task.js'
+import usersRouter from './routes/users.js'
+import tasksRouter from './routes/tasks.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { errorHandler } from './handlers/errorHandler.js'
@@ -29,12 +29,13 @@ app.get('/', (req, res) => {
 })
 
 app.use('/auth', authRouter)
-app.use('/api/user', userRouter)
-app.use('/api/task', taskRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/tasks', tasksRouter)
 
 app.use(errorHandler)
 
-app.listen(port, () => {
-    console.log(`Listening to requests on http://localhost:${port}`)
-})
-
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(port, () => {
+        console.log(`Listening to requests on http://localhost:${port}`)
+    })
+}

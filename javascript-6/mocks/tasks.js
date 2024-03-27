@@ -1,12 +1,12 @@
 export const tasks = [
     {
-        id: '1',
+        id: 1,
         name: 'Biba',
-        status: 'done',
+        description: 'description',
     },
     {
-        id: '2',
+        id: 2,
         name: 'Boba',
-        status: 'failed',
+        description: 'description',
     }
 ]
