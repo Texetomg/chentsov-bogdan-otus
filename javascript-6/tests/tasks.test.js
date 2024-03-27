@@ -5,7 +5,7 @@ import { tasks } from '../mocks/tasks'
 const route = '/api/tasks'
 
 describe(`GET ${route}/:id`, () => {
-    it('return task Biba', async () => {
+    it('return task by id', async () => {
       const response = await request(app).get(`${route}/1`)
       const task = tasks.find(task => task.id === 1)
      
@@ -22,7 +22,7 @@ describe(`GET ${route}/:id`, () => {
 });
 
 describe(`POST ${route}`, () => {
-  it('return new task Keka', async () => {
+  it('return new task', async () => {
     const newUser = {
       id: tasks.length + 1,
       name: 'Keka',
@@ -35,7 +35,7 @@ describe(`POST ${route}`, () => {
     expect(response.body.data).toEqual(newUser)
   })
 
-  it('return 400 with task without required fields', async () => {
+  it('return an error for a task without required fields', async () => {
     const newUser = {
       id: tasks.length + 1,
     }
@@ -48,7 +48,7 @@ describe(`POST ${route}`, () => {
 })
 
 describe(`DELETE ${route}/:id`, () => {
-  it(`delete task Biba`, async () => {
+  it(`delete task by id`, async () => {
     const response = await request(app).delete(`${route}/1`)
     const filteredUsers = tasks.filter(task => task.id !== 1)
 
@@ -56,7 +56,7 @@ describe(`DELETE ${route}/:id`, () => {
     expect(response.body.data).toEqual(filteredUsers)
   })
 
-  it(`return 404 on task with id 999`, async () => {
+  it(`return an error for a task with a non-existent ID`, async () => {
     const response = await request(app).delete(`${route}/999`)
 
     expect(response.statusCode).toBe(404)
@@ -65,7 +65,7 @@ describe(`DELETE ${route}/:id`, () => {
 })
 
 describe(`PATCH ${route}/:id`, () => {
-  it(`update task Biba`, async () => {
+  it(`update task by id`, async () => {
     const newData = {
       name: 'Goga'
     }
@@ -79,7 +79,7 @@ describe(`PATCH ${route}/:id`, () => {
     expect(response.body.data).toEqual(updatedUser)
   })
 
-  it(`return 404 on task with id 999`, async () => {
+  it(`return an error for a user with a non-existent ID`, async () => {
     const response = await request(app).delete(`${route}/999`)
 
     expect(response.statusCode).toBe(404)

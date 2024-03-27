@@ -5,7 +5,7 @@ import { users } from '../mocks/users'
 const route = '/api/users'
 
 describe(`GET ${route}/:id`, () => {
-    it('return user Biba', async () => {
+    it('return user by id', async () => {
       const response = await request(app).get(`${route}/1`)
       const user = users.find(user => user.id === 1)
      
@@ -13,7 +13,7 @@ describe(`GET ${route}/:id`, () => {
       expect(response.body.data).toEqual(user)
     });
 
-    it('return 404 on user with id 999', async () => {
+    it('return an error for a user with a non-existent id', async () => {
       const response = await request(app).get(`${route}/999`)
      
       expect(response.statusCode).toBe(404)
@@ -22,7 +22,7 @@ describe(`GET ${route}/:id`, () => {
 });
 
 describe(`POST ${route}`, () => {
-  it('return new user Keka', async () => {
+  it('return new user', async () => {
     const newUser = {
       id: users.length + 1,
       password: 123,
@@ -35,7 +35,7 @@ describe(`POST ${route}`, () => {
     expect(response.body.data).toEqual(newUser)
   })
 
-  it('return 400 with user without required fields', async () => {
+  it('return an error for a user without required fields', async () => {
     const newUser = {
       id: users.length + 1,
     }
@@ -48,7 +48,7 @@ describe(`POST ${route}`, () => {
 })
 
 describe(`DELETE ${route}/:id`, () => {
-  it(`delete user Biba`, async () => {
+  it(`delete user by id`, async () => {
     const response = await request(app).delete(`${route}/1`)
     const filteredUsers = users.filter(user => user.id !== 1)
 
@@ -56,7 +56,7 @@ describe(`DELETE ${route}/:id`, () => {
     expect(response.body.data).toEqual(filteredUsers)
   })
 
-  it(`return 404 on user with id 999`, async () => {
+  it(`return an error for a user with a non-existent ID`, async () => {
     const response = await request(app).delete(`${route}/999`)
 
     expect(response.statusCode).toBe(404)
@@ -65,7 +65,7 @@ describe(`DELETE ${route}/:id`, () => {
 })
 
 describe(`PATCH ${route}/:id`, () => {
-  it(`update user Biba`, async () => {
+  it(`update user by id`, async () => {
     const newData = {
       login: 'Goga'
     }
@@ -79,7 +79,7 @@ describe(`PATCH ${route}/:id`, () => {
     expect(response.body.data).toEqual(updatedUser)
   })
 
-  it(`return 404 on user with id 999`, async () => {
+  it(`return an error for a user with a non-existent ID`, async () => {
     const response = await request(app).delete(`${route}/999`)
 
     expect(response.statusCode).toBe(404)

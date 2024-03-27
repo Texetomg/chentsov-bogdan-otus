@@ -3,13 +3,13 @@ import { tasks } from '../mocks/tasks.js'
 import { baseDeleteData, baseGetData } from './helpers.js'
 import _ from 'lodash'
 
-export const taskDetail = (req, res, next) => {
+export const detailTask = (req, res, next) => {
     const id = _.toInteger(req.params.id, 10)
 
     baseGetData(id, tasks, res, next)
 }
 
-export const taskCreate = (req, res, next) => {
+export const createTask = (req, res, next) => {
     const body = req.body
 
     if (!body.name || !body.description) {
@@ -26,12 +26,12 @@ export const taskCreate = (req, res, next) => {
         .send({ data: newTask })
 }
 
-export const taskDelete = (req, res, next) => {
+export const deleteTask = (req, res, next) => {
     const id = _.toInteger(req.params.id, 10)
     baseDeleteData(id, tasks, res, next)
 }
 
-export const taskUpdate = (req, res, next) => {
+export const updateTask = (req, res, next) => {
     const id = _.toInteger(req.params.id, 10)
     const { name, status, description } = req.body
     const task = tasks.find(task => task.id === id)

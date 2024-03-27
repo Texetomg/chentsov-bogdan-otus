@@ -3,13 +3,13 @@ import { users } from '../mocks/users.js'
 import { baseDeleteData, baseGetData } from './helpers.js'
 import _ from 'lodash'
 
-export const userDetail = (req, res, next) => {
+export const detailUser = (req, res, next) => {
     const id = _.toInteger(req.params.id, 10)
 
    baseGetData(id, users, res, next)
 }
 
-export const userCreate = (req, res, next) => {
+export const createUser = (req, res, next) => {
     const body = req.body
  
     if (!body.login || !body.password) {
@@ -26,12 +26,12 @@ export const userCreate = (req, res, next) => {
         .send({ data: newUser })
 }
 
-export const userDelete = (req, res, next) => {
+export const deleteUser = (req, res, next) => {
     const id = _.toInteger(req.params.id, 10)
     baseDeleteData(id, users, res, next)
 }
 
-export const userUpdate = (req, res, next) => {
+export const updateUser = (req, res, next) => {
     const id = _.toInteger(req.params.id, 10)
     const { login, status, name } = req.body
     const user = users.find(user => user.id === id)
